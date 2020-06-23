@@ -9,3 +9,4 @@ Dies geschieht mit dem Command "arp -a".
 Dies zeigt dann die MAC Adresse des Routers an. Falls man aber gespooft wird, ist es die MAC Adresse des Angreifers.
 
 ### Variante 2
+Das zweite ist, dass man mit
