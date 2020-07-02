@@ -10,7 +10,8 @@ def get_argument():  # fetch arguments for target IP
     parser.add_argument("-t", "--target", dest="target", help="Target IP / IP range")  # arguments defined
     options = parser.parse_args()
     if len(sys.argv) <= 1:
-        print('Please put in the argument -t following your IP with this format: 000:000:000:000/24')
+        print('Error: No arguments')
+        print('Type -h for help')
         sys.exit(1)
     return options
 
