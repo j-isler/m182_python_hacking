@@ -2,6 +2,21 @@
 
 import scapy.all as scapy
 from scapy.layers import http
+import argparse
+import sys
+
+
+def get_argument():  # fetch arguments for interface name
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--interface", dest="interface", help="Interface name (eth0)")  # arguments defined
+    options = parser.parse_args()
+
+    if len(sys.argv) <= 1:
+        print('Error: No arguments')
+        print('Type -h for help')
+        exit(1)
+
+    return options
 
 keywords = ["username", "user", "login", "password", "pass"]
 
@@ -30,5 +45,5 @@ def process_sniffed_packet(packet):
 
         
 
-
-sniff("eth0")
+options = get_argument()
+sniff(options)
