@@ -46,4 +46,4 @@ def process_sniffed_packet(packet):
         
 
 options = get_argument()
-sniff(options)
+sniff(options.interface)
