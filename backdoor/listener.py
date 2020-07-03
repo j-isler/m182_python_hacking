@@ -7,5 +7,5 @@ listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # allows to reus
 listener.bind(("192.168.1.113", 4444))  # bind socket to our computer to listen to connections to port
 listener.listen(0)
 print("[+] Waiting for incoming connections.")
-listener.accept()
-print("[+] You've got a connection!")
+connection, address = listener.accept()
+print("[+] You've got a connection!" + str(address))
